@@ -7,9 +7,5 @@ class Product
   field :height, type: Integer
   field :weight, type: Integer
 
-  validates_presence_of :name
-  validates_presence_of :type
-  validates_presence_of :length
-  validates_presence_of :height
-  validates_presence_of :width
+  validates_presence_of %i[name type length height width weight]
 end

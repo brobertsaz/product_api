@@ -5,6 +5,7 @@ development:
       hosts:
         - localhost:27017
       options:
+        raise_not_found_error: false
         read:
           mode: :primary
         max_pool_size: 1
@@ -15,6 +16,7 @@ test:
       hosts:
         - localhost:27017
       options:
+        raise_not_found_error: false
         read:
           mode: :primary
         max_pool_size: 1
