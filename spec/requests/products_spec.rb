@@ -47,13 +47,20 @@ RSpec.describe 'Products', type: :request do
 
 
   describe 'POST /products' do
-    let(:valid_attributes) { { title: 'Learn Elm', created_by: '1' } }
+    let(:valid_attributes) { {
+                              name: 'Snowboot Bag',
+                              type: 'Ski',
+                              length: 25,
+                              width: 15,
+                              height: 7,
+                              weight: 25
+                             } }
 
     context 'when the request is valid' do
       before { post '/products', params: valid_attributes }
 
       it 'creates a product' do
-        expect(json['title']).to eq('Learn Elm')
+        expect(json['name']).to eq('Snowboot Bag')
       end
 
       it 'returns status code 201' do
@@ -62,7 +69,7 @@ RSpec.describe 'Products', type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post '/products', params: { title: 'Foobar' } }
+      before { post '/products', params: { name: 'Foobar' } }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -70,29 +77,34 @@ RSpec.describe 'Products', type: :request do
 
       it 'returns a validation failure message' do
         expect(response.body)
-          .to match(/Validation failed: Created by can't be blank/)
+          .to match(/Type can't be blank/)
       end
     end
   end
 
-  # Test suite for PUT /products/:id
   describe 'PUT /products/:id' do
-    let(:valid_attributes) { { title: 'Shopping' } }
+    let(:valid_attributes) { {
+      name: 'Snowboot Case',
+      type: 'Ski',
+      length: 25,
+      width: 15,
+      height: 7,
+      weight: 25
+     } }
 
     context 'when the record exists' do
       before { put "/products/#{product_id}", params: valid_attributes }
 
       it 'updates the record' do
-        expect(response.body).to be_empty
+        expect(json['name']).to eq 'Snowboot Case'
       end
 
-      it 'returns status code 204' do
-        expect(response).to have_http_status(204)
+      it 'returns status code 200' do
+        expect(response).to have_http_status(200)
       end
     end
   end
 
-  # Test suite for DELETE /products/:id
   describe 'DELETE /products/:id' do
     before { delete "/products/#{product_id}" }
 
