@@ -43,8 +43,8 @@ RSpec.describe 'Products', type: :request do
     context 'when no product exists' do
       before { get '/products/search', params: params }
 
-      it 'returns empty array' do
-        expect(json).to eq([])
+      it 'returns no product' do
+        expect(json).to eq(nil)
       end
 
       it 'returns status code 200' do
@@ -61,16 +61,24 @@ RSpec.describe 'Products', type: :request do
                          height: 7,
                          weight: 25
       end
+      let!(:product2) do
+        create :product, name: 'Checked Bag',
+                         type: 'Luggage',
+                         length: 26,
+                         width: 16,
+                         height: 22,
+                         weight: 50
+      end
       before { get '/products/search', params: params }
 
-      it 'finds correct product' do
-        expect(json.class).to eq(Array)
-        expect(json.last['name']).to eq('Snowboot Bag')
+      it 'finds correct single product' do
+        expect(json.class).to eq(Hash)
+        expect(json['name']).to eq('Snowboot Bag')
       end
 
       it 'doesnt return product if too small' do
         get '/products/search', params: no_result_params
-        expect(json).to eq([])
+        expect(json).to eq(nil)
       end
 
       it 'returns status code 200' do

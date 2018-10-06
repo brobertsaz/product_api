@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :update, :destroy]
+  before_action :set_product, only: %i[show update destroy]
 
   def index
     @products = Product.all
@@ -34,7 +34,8 @@ class ProductsController < ApplicationController
                        .where(:length.gte => params[:length])
                        .where(:weight.gte => params[:weight])
                        .where(:width.gte => params[:width])
-    render json: @products
+
+    render json: @products.order_by(area: :asc).first
   end
 
   def destroy
@@ -53,5 +54,3 @@ class ProductsController < ApplicationController
     params.permit(:name, :type, :length, :height, :width, :weight)
   end
 end
-
-
