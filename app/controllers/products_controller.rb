@@ -29,6 +29,14 @@ class ProductsController < ApplicationController
     end
   end
 
+  def search
+    @products = Product.where(:height.gte => params[:height])
+                       .where(:length.gte => params[:length])
+                       .where(:weight.gte => params[:weight])
+                       .where(:width.gte => params[:width])
+    render json: @products
+  end
+
   def destroy
     @product.destroy
   end
