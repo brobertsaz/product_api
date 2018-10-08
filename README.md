@@ -1,10 +1,64 @@
 # README
 
-Ruby/Rails Developer Challenge
----------------------------------
+# SETUP
 
-Back-End
-———————-
+1. Clone the repo:
+```
+git clone git@github.com:brobertsaz/product_api.git
+```
+2. CD into the product_api directory
+3. You should be prompted to install the correct version of ruby if you have RVM or RBENV installed
+4. Install gems
+```
+bundle
+```
+
+## Testing
+
+To run the rspec tests, run:
+```
+rspec spec
+```
+
+## Data Seed
+
+To seed the database with the data from products.json, run:
+```
+rake data:import
+```
+
+## Using the API
+
+To start the server, run
+```
+rails s -p 4000
+```
+
+Routes:
+```
+GET /products
+GET /products/search
+GET /products/:id
+POST /products
+DELETE /products/:id
+```
+
+Example params for search
+```
+{
+    length: 20,
+    width: 12,
+    height: 7,
+    weight: 20
+}
+```
+
+
+
+
+## Ruby/Rails Developer Challenge
+
+### Back-End
 
 Directions: Build a minimal API, using Rails and MongoDB, for our products (please see attached). The API should be RESTful, serve JSON as the output, and contain the following CRUD functions:
 
@@ -38,8 +92,7 @@ Helpful Hints:
 
 Build a view that consumes the API with JavaScript, and style it using Twitter Bootstrap
 
-Front-End
-————————-
+### Front-End
 
 Build a calculator, using HTML, CSS, and JavaScript, that takes dimensional inputs and weight from the user and returns the product that matches our products in the DB. Use the above API to fill the results.
 
