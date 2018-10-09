@@ -1,4 +1,5 @@
 # README
+This API can be used as standalone API or with the separate frontend at https://github.com/brobertsaz/product_web
 
 # SETUP
 
