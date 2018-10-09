@@ -31,7 +31,12 @@ rake data:import
 
 To start the server, run
 ```
-rails s -p 4000
+rails s
+```
+
+For the frontend UI, go to
+```
+localhost:3000
 ```
 
 Routes:

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+      body {
+        font-family: "proxima-nova", sans-serif !important;
+        font-size: 100%;
+      }
+
+      .logo {
+        width: 180px;
+        margin-top: -11px;
+        margin-bottom: 0px;
+        margin-left: -10px;
+        max-width: 180px !important;
+        padding: 7px 10px;
+        max-width: 180px !important;
+      }
+      .navbar {
+        background-color: #252525;
+        min-height: 45px !important;
+      }
+    </style>
+    <title>Product Search</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img alt="Ship Sticks" class="logo pt-3" src="//cdn.shipsticks.com/assets/new-ship-page/shipsticks/brand_logo_white-0f5ad274f42fc37cbddd3b4b7528b78b.svg">
+        </a>
+      </div>
+    </nav>
+    <div class="container pt-3">
+      <h1>Product Search</h1>
+      <div id="top-result"></div>
+
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Launch Calculator
+      </button>
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Search for Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div id="result"></div>
+                <form>
+                  <div class="form-group">
+                    <label>Weight</label>
+                    <input type="number" class="form-control" id='weight' placeholder="Enter weight in pounds">
+                  </div>
+                  <div class="form-group">
+                    <label>Length</label>
+                    <input type="number" class="form-control"  id='length' placeholder="Enter length in inches">
+                  </div>
+                  <div class="form-group">
+                    <label>Height</label>
+                    <input type="number" class="form-control" id='height' placeholder="Enter height in inches">
+                  </div>
+                  <div class="form-group">
+                    <label>Width</label>
+                    <input type="number" class="form-control" id='width' placeholder="Enter width in inches">
+                  </div>
+                  <button type="submit" class="btn btn-primary" id="submit-search">Search</button>
+                </form>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+      $(document).ready(
+        $('#submit-search').click(function(event){
+          event.preventDefault()
+          weight = $('#weight').val()
+          length = $('#length').val()
+          height = $('#height').val()
+          width = $('#width').val()
+          $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: '/products/search',
+            data: {
+              weight: weight,
+              length: length,
+              height: height,
+              width: width
+            },
+            success: function(data) {
+              if ( data == null ) {
+                $('#result').html("<h4>Yikes, are you trying to mail an elephant?</h4>")
+              } else {
+                $('#result').html("<h4>The '" + data['name'] + "' will work for you.</h4>")
+              }
+              setTimeout(function() {
+                $('.modal').modal('toggle')
+                $('#top-result').html("<h4>Please use the '" + data['name'] + "' for your shipment.</h4>")
+              }, 5000);
+            },
+            failure: function(data) {
+              alert('Failed')
+            }
+          });
+
+        })
+      )
+    </script>
+
+
+  </body>
+</html>
